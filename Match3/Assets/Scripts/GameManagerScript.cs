@@ -19,16 +19,20 @@ public class GameManagerScript : MonoBehaviour {
 	//that will make it easy to track tokens in a grid (which is a two-dimensional shape)
 	public GameObject[,] gridArray;
 //
-//	protected Object[] tokenTypes;
+	protected Object[] flowerTypes;
 //
 //	// used in InputMangerScript
 	GameObject selected;
 
 	public virtual void Start () {
-		//load the tokens, make the grid, and create references to the other scripts
-//		tokenTypes = (Object[])Resources.LoadAll("Tokens/");
+		//load the flowers
+		flowerTypes = (Object[])Resources.LoadAll("flowers/");
+
+		//make the grid
 		gridArray = new GameObject[gridWidth, gridHeight];
 		MakeGrid();
+
+		//create references to the other scripts
 		matchManager = GetComponent<MatchManagerScript>();
 		inputManager = GetComponent<InputManagerScript>();
 		repopulateManager = GetComponent<RepopulateScript>();
@@ -125,6 +129,10 @@ public class GameManagerScript : MonoBehaviour {
 		token.transform.parent = parent.transform;
 		//put this token into the array of tokens
 		gridArray[x, y] = token;
+
+		//create a random kind of flower at the position in the grid with the same rotation
+		GameObject flower = Instantiate(flowerTypes[Random.Range(0, flowerTypes.Length)], position, Quaternion.identity) as GameObject;
+		flower.transform.parent = parent.transform;
 	}
 
 	/// <summary>
