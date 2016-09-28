@@ -14,6 +14,10 @@ public class GameManagerScript : MonoBehaviour {
 
 	public GameObject grid;
 	public GameObject tokenPrefab;
+	public GameObject bluePrefab;
+	public GameObject redPrefab;
+	public GameObject yellowPrefab;
+
 
 	//declaring a MULTI-DIMENSIONAL ARRAY; this array has two dimensions, so it's a GRID, not a line
 	//that will make it easy to track tokens in a grid (which is a two-dimensional shape)
@@ -23,6 +27,8 @@ public class GameManagerScript : MonoBehaviour {
 //
 //	// used in InputMangerScript
 	GameObject selected;
+
+	public int randomCap;
 
 	public virtual void Start () {
 		//load the flowers
@@ -131,8 +137,26 @@ public class GameManagerScript : MonoBehaviour {
 		gridArray[x, y] = token;
 
 		//create a random kind of flower at the position in the grid with the same rotation
-		GameObject flower = Instantiate(flowerTypes[Random.Range(0, flowerTypes.Length)], position, Quaternion.identity) as GameObject;
+		int i = Random.Range (0,randomCap);
+
+		if(i==0){
+		GameObject flower = Instantiate(bluePrefab, position, Quaternion.identity) as GameObject;
 		flower.transform.parent = parent.transform;
+		//give the tile position to the object script so we can know which tile's color the flower is changing
+		flower.GetComponent<Blue> ().tileOn = token;
+		}
+//
+		if(i==1){
+			GameObject flower = Instantiate(redPrefab, position, Quaternion.identity) as GameObject;
+			flower.transform.parent = parent.transform;
+			flower.GetComponent<Red> ().tileOn = token;
+		}
+
+		if(i==2){
+			GameObject flower = Instantiate(yellowPrefab, position, Quaternion.identity) as GameObject;
+			flower.transform.parent = parent.transform;
+			flower.GetComponent<Yellow> ().tileOn = token;
+		}
 	}
 
 	/// <summary>
