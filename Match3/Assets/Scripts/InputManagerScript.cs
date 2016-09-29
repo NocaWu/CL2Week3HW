@@ -24,12 +24,10 @@ public class InputManagerScript : MonoBehaviour {
 			Collider2D collider = Physics2D.OverlapPoint(mousePos);
 
 			if(collider != null){
-
+				
 				//if you click on something...
 				if(selected == null)
 				{
-					//Debug.Log ("Collider: " + );
-
 					//if we haven't yet selected a token, select this token and remember it
 					selected = collider.gameObject;		
 
@@ -39,35 +37,16 @@ public class InputManagerScript : MonoBehaviour {
 					Vector2 pos1 = gameManager.GetPositionOfTokenInGrid(selected);
 					Vector2 pos2 = gameManager.GetPositionOfTokenInGrid(collider.gameObject);
 
-					Debug.Log ("Swap!");
-
 					//if they're next to each other, swap them
 					if(Mathf.Abs((pos1.x - pos2.x) + (pos1.y - pos2.y)) == 1 &&
 						Mathf.Abs((pos1.x - pos2.x)) <= 1 &&
 						Mathf.Abs((pos1.y - pos2.y)) <= 1){ // this make sure no swapping "-1+2"
 						moveManager.SetupTokenExchange(selected, pos1, collider.gameObject, pos2, true);
-						//Debug.Log ("test");
 					}
 					//then deselect our current token (because we're about to destroy or forget it)
 					selected = null;
 				}
 			}
 		}
-
 	}
-
-/// <summary>
-/// This seems like a pretty dumb function. 
-/// Maybe Matt just put it here to show some cool commenting tricks?
-/// Maybe these comments aren't even right?
-/// </summary>
-/// 
-/// <param name="x">A float x that will be divided</param>
-/// <param name="y">A float x that will be divided</param>
-/// 
-/// <returns>The value of param x plus y</returns>
-///
-//	private int CommentFunc(int x, int y){
-//		return x - y;
-//	}
 }

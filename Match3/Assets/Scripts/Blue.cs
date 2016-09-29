@@ -9,9 +9,9 @@ public class Blue : MonoBehaviour {
 //	GameObject tileDown;
 //	GameObject tileLeft;
 //	GameObject tileRIght;
-	GameObject gameManager;
+	//GameObject gameManager;
 
-	protected GameManagerScript gameManagerScript;
+	//protected GameManagerScript gameManagerScript;
 	 
 	Color tileColor;
 	public float colorChange;
@@ -21,12 +21,13 @@ public class Blue : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		gameManager = GameObject.Find ("GameManager");
+		//gameManager = GameObject.Find ("GameManager");
 		tileColor = tileOn.GetComponent<SpriteRenderer> ().color;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		//change tileOn color once in a while
 		timer += Time.deltaTime;
 		if (timer >= timerTIme){
 			ColorChange ();
@@ -35,12 +36,14 @@ public class Blue : MonoBehaviour {
 	}
 
 	void ColorChange(){
-		if(tileColor.b >= 0f){
+		// get tile color and change it
+		tileColor = tileOn.GetComponent<SpriteRenderer> ().color;
 			tileColor.b -= colorChange;
 			tileColor.g += colorChange * 0.7f;
 			tileOn.GetComponent<SpriteRenderer> ().color = tileColor;
-		} else if (tileColor.b < 0f){
+		//kill tile if one of rgb runs out
 			//tileOn.GetComponent<SpriteRenderer> ().color = new Vector4(0f,0f,0f,0f);
+		if (tileColor.r < 0f || tileColor.g < 0f || tileColor.b < 0f ){
 			Destroy (tileOn);
 		}
 	}
