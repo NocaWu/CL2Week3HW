@@ -4,15 +4,6 @@ using System.Collections;
 public class Blue : MonoBehaviour {
 
 	public GameObject tileOn;
-
-//	GameObject tileUp;
-//	GameObject tileDown;
-//	GameObject tileLeft;
-//	GameObject tileRIght;
-	//GameObject gameManager;
-
-	//protected GameManagerScript gameManagerScript;
-	 
 	Color tileColor;
 	public float colorChange;
 	public float timerTIme;
