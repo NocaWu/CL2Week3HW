@@ -6,9 +6,11 @@ public class Blue : MonoBehaviour {
 	public GameObject tileOn;
 	Color tileColor;
 	public float colorChange;
-	public float timerTIme;
+	public float timerTime;
 
-	float timer = 0.0f;
+	float timer = 9.9f;
+	float timeSurvive = 0.0f;
+
 
 	// Use this for initialization
 	void Start () {
@@ -20,10 +22,16 @@ public class Blue : MonoBehaviour {
 	void Update () {
 		//change tileOn color once in a while
 		timer += Time.deltaTime;
-		if (timer >= timerTIme){
+		if (timer >= timerTime){
 			ColorChange ();
 			timer = 0.0f;
 		}
+
+//		timeSurvive += Time.deltaTime;
+//		if (timeSurvive >= timerTime * 10){
+//			ColorPlus ();
+//			timeSurvive = 0.0f;
+//		}
 	}
 
 	void ColorChange(){
@@ -37,5 +45,13 @@ public class Blue : MonoBehaviour {
 		if (tileColor.r < 0f || tileColor.g < 0f || tileColor.b < 0f ){
 			Destroy (tileOn);
 		}
+	}
+
+	void ColorPlus(){
+		tileColor = tileOn.GetComponent<SpriteRenderer> ().color;
+		tileColor.r += 2 * colorChange;
+		tileColor.g += 2 * colorChange;
+		tileColor.b += 2 * colorChange;
+		tileOn.GetComponent<SpriteRenderer> ().color = tileColor;
 	}
 }
