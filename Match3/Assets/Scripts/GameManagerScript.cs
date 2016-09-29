@@ -7,9 +7,11 @@ public class GameManagerScript : MonoBehaviour {
 	public int gridHeight = 8;
 	public float tokenSize = 1;
 
-	protected MatchManagerScript matchManager;
+	public int randomCap;
+
+	//protected MatchManagerScript matchManager;
 	protected InputManagerScript inputManager;
-	protected RepopulateScript repopulateManager;
+	//protected RepopulateScript repopulateManager;
 	protected MoveTokensScript moveTokenManager;
 
 	public GameObject grid;
@@ -19,34 +21,30 @@ public class GameManagerScript : MonoBehaviour {
 	public GameObject yellowPrefab;
 
 
-	//declaring a MULTI-DIMENSIONAL ARRAY; this array has two dimensions, so it's a GRID, not a line
-	//that will make it easy to track tokens in a grid (which is a two-dimensional shape)
+	//declaring a MULTI-DIMENSIONAL ARRAY; it's a GRID
 	public GameObject[,] gridArray;
-//
 	protected Object[] flowerTypes;
-//
-//	// used in InputMangerScript
-	GameObject selected;
 
-	public int randomCap;
+	// used in InputMangerScript
+	GameObject selected;
 
 	public virtual void Start () {
 		//load the flowers
-		flowerTypes = (Object[])Resources.LoadAll("flowers/");
+		//flowerTypes = (Object[])Resources.LoadAll("flowers/");
 
 		//make the grid
 		gridArray = new GameObject[gridWidth, gridHeight];
 		MakeGrid();
 
 		//create references to the other scripts
-		matchManager = GetComponent<MatchManagerScript>();
+		//matchManager = GetComponent<MatchManagerScript>();
 		inputManager = GetComponent<InputManagerScript>();
-		repopulateManager = GetComponent<RepopulateScript>();
+		//repopulateManager = GetComponent<RepopulateScript>();
 		moveTokenManager = GetComponent<MoveTokensScript>();
 	}
 
 	public virtual void Update(){
-//		//every frame, check whether the grid is full of tokens.
+//      //check whether the grid is full of tokens.
 //		if(!GridHasEmpty()){
 //			//if the grid is full of tokens and has matches, remove them.
 //
@@ -58,14 +56,14 @@ public class GameManagerScript : MonoBehaviour {
 //
 //			}else {
 //				//if the grid is full and there are no matches, wait for the player to make a move (and look for it in InputManager)
-//				inputManager.SelectToken();
+				inputManager.SelectToken();
 //			}
 //
 //		} else {
-//			if(!moveTokenManager.move){
-//				//if the icons are currently moving, set them up to move and leave it be
-//				moveTokenManager.SetupTokenMove();
-//			}
+			/*if(!moveTokenManager.move){
+				//if the icons are currently moving, set them up to move and leave it be
+				moveTokenManager.SetupTokenMove();
+			}*/
 //			if(!moveTokenManager.MoveTokensToFillEmptySpaces()){
 //				//if the MoveTokenManager hasn't added any tokens to the grid
 //				//tell Repopulate Script to add new tokens
@@ -89,41 +87,38 @@ public class GameManagerScript : MonoBehaviour {
 			}
 		}
 	}
-//
-//	//checks whether there is an empty space in the grid
-//	public virtual bool GridHasEmpty(){
-//		//this checks every x and y in the grid
-//		for(int x = 0; x < gridWidth; x++){
-//			for(int y = 0; y < gridHeight ; y++){
-//				if(gridArray[x, y] == null){
-//					//if this is an empty space, return true (so that we spawn more tokens)
-//					return true;
-//				}
-//			}
-//		}
-//		//if all spots in the grid are filled, we returned false (and will spawn no tokens)
-//		return false;
-//	}
-//
-//	/// <summary>
-//	/// Gets the position of a specific token
-//	/// </summary>
-//	/// 
-//	/// <param name="token">A token GameObject, 'cause Matt likes sports</param>
-//	/// <returns>The Vector2 coordinate of a token in the grid</returns>
-//	public Vector2 GetPositionOfTokenInGrid(GameObject token){
-//		for(int x = 0; x < gridWidth; x++){
-//			for(int y = 0; y < gridHeight ; y++){
-//				if(gridArray[x, y] == token){
-//					return(new Vector2(x, y));
-//				}
-//			}
-//		}
-//		return new Vector2();
-//	}
+
+	//checks whether there is an empty space in the grid
+	public virtual bool GridHasEmpty(){
+		for(int x = 0; x < gridWidth; x++){
+			for(int y = 0; y < gridHeight ; y++){
+				if(gridArray[x, y] == null){
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
+	/// <summary>
+	/// Gets the position of a specific token
+	/// </summary>
+	/// 
+	/// <param name="token">A token GameObject, 'cause Matt likes sports</param>
+	/// <returns>The Vector2 coordinate of a token in the grid</returns>
+	public Vector2 GetPositionOfTokenInGrid(GameObject token){
+		for(int x = 0; x < gridWidth; x++){
+			for(int y = 0; y < gridHeight ; y++){
+				if(gridArray[x, y] == token){
+					return(new Vector2(x, y));
+				}
+			}
+		}
+		return new Vector2();
+	}
 		
 	/// <summary>
-	/// Creates a random token and puts it into the grid at the given coordinate as a child of the grid
+	/// Creates a random token into the grid as a child at the given coordinate 
 	/// </summary>
 	/// 
 	/// <param name="x">An int x that is the x coordinate in the grid</param>
@@ -140,22 +135,28 @@ public class GameManagerScript : MonoBehaviour {
 		int i = Random.Range (0,randomCap);
 
 		if(i==0){
-		GameObject flower = Instantiate(bluePrefab, position, Quaternion.identity) as GameObject;
-		flower.transform.parent = parent.transform;
-		//give the tile position to the object script so we can know which tile's color the flower is changing
-		flower.GetComponent<Blue> ().tileOn = token;
+			GameObject flower = Instantiate(bluePrefab, position, Quaternion.identity) as GameObject;
+			flower.transform.parent = parent.transform;
+			//give the tile position to the object script so we can know which tile's color the flower is changing
+			flower.GetComponent<Blue> ().tileOn = token;
+
+			token.GetComponent<Token> ().flowerOn = flower;
 		}
-//
+
 		if(i==1){
 			GameObject flower = Instantiate(redPrefab, position, Quaternion.identity) as GameObject;
 			flower.transform.parent = parent.transform;
 			flower.GetComponent<Red> ().tileOn = token;
+
+			token.GetComponent<Token> ().flowerOn = flower;
 		}
 
 		if(i==2){
 			GameObject flower = Instantiate(yellowPrefab, position, Quaternion.identity) as GameObject;
 			flower.transform.parent = parent.transform;
 			flower.GetComponent<Yellow> ().tileOn = token;
+
+			token.GetComponent<Token> ().flowerOn = flower;
 		}
 	}
 

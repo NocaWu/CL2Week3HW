@@ -3,11 +3,11 @@ using System.Collections;
 
 public class MatchManagerScript : MonoBehaviour {
 
-	//protected GameManagerScript gameManager;    //"protected" means this field is public to child scripts
+	protected GameManagerScript gameManager;    //"protected" means this field is public to child scripts
 												//but not to unrelated scripts
 
 	public virtual void Start () {
-	//	gameManager = GetComponent<GameManagerScript>();
+		//gameManager = GetComponent<GameManagerScript>();
 	}
 
 

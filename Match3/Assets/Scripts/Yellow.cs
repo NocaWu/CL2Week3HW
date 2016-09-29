@@ -5,10 +5,10 @@ public class Yellow : MonoBehaviour {
 
 	public GameObject tileOn;
 
-	GameObject tileUp;
-	GameObject tileDown;
-	GameObject tileLeft;
-	GameObject tileRIght;
+//	GameObject tileUp;
+//	GameObject tileDown;
+//	GameObject tileLeft;
+//	GameObject tileRIght;
 	GameObject gameManager;
 
 	protected GameManagerScript gameManagerScript;
@@ -35,11 +35,13 @@ public class Yellow : MonoBehaviour {
 	}
 
 	void ColorChange(){
-		if(tileColor.b >= 0f){
-			tileColor.b -= colorChange;
+		if(tileColor.g >= 0f){
+			tileColor.g -= colorChange;
+			tileColor.r += colorChange * 0.7f;
 			tileOn.GetComponent<SpriteRenderer> ().color = tileColor;
-		} else if (tileColor.b < 0f){
-			Destroy (gameObject);
+		} else if (tileColor.g < 0f){
+			Destroy (tileOn);
+			//tileOn.GetComponent<SpriteRenderer> ().color = new Vector4(0f,0f,0f,0f);
 		}
 	}
 }

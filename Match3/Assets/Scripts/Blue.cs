@@ -5,10 +5,10 @@ public class Blue : MonoBehaviour {
 
 	public GameObject tileOn;
 
-	GameObject tileUp;
-	GameObject tileDown;
-	GameObject tileLeft;
-	GameObject tileRIght;
+//	GameObject tileUp;
+//	GameObject tileDown;
+//	GameObject tileLeft;
+//	GameObject tileRIght;
 	GameObject gameManager;
 
 	protected GameManagerScript gameManagerScript;
@@ -37,9 +37,11 @@ public class Blue : MonoBehaviour {
 	void ColorChange(){
 		if(tileColor.b >= 0f){
 			tileColor.b -= colorChange;
+			tileColor.g += colorChange * 0.7f;
 			tileOn.GetComponent<SpriteRenderer> ().color = tileColor;
 		} else if (tileColor.b < 0f){
-			Destroy (gameObject);
+			//tileOn.GetComponent<SpriteRenderer> ().color = new Vector4(0f,0f,0f,0f);
+			Destroy (tileOn);
 		}
 	}
 }

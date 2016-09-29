@@ -3,10 +3,10 @@ using System.Collections;
 
 public class RepopulateScript : MonoBehaviour {
 	
-	//protected GameManagerScript gameManager;
+	protected GameManagerScript gameManager;
 
 	public virtual void Start () {
-	//	gameManager = GetComponent<GameManagerScript>();
+		//gameManager = GetComponent<GameManagerScript>();
 	}
 
 	/// <summary>
